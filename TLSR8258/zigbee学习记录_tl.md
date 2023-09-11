@@ -71,6 +71,24 @@ bls_ota_set_fwSize_and_fwBootAddr(200, 0x40000);//200k, 4byte对齐
          1. drv_gpio_irq_en(pin)
          2. drv_gpio_irq_risc0_en(pin)
          3. drv_gpio_irq_risc1_en(pin)
+      ```
+        void gpio_irq_callback(void)
+        {
+            drv_gpio_write(LED1, 1); 
+            INFO("irq\n");  
+        }
+        void irq_init()
+        {
+            drv_gpio_func_set(GPIO_PD6);
+            drv_gpio_output_en(GPIO_PD6, 0); 		//disable output
+            drv_gpio_up_down_resistor(GPIO_PD6, PM_PIN_PULLUP_10K);
+            drv_gpio_input_en(GPIO_PD6, 1);		// enable input
+
+            drv_gpio_irq_config(GPIO_IRQ_MODE,GPIO_PD6,FALLING_EDGE,gpio_irq_callback);
+            drv_gpio_irq_en(GPIO_PD6);
+        }
+      ```
+    
   * UART
     * 管教设置: drv_uart_pin_set(txPin,rxPin) 使用uart前必须选择相应的IO作为收发管脚
     * 初始化: drv_uart_init(bps,rxBuf,rxLen,recvCB)
@@ -459,6 +477,17 @@ zcl_seqNum
 rf_rxBuf  接收的buf指针
 
 0xA4C1382B964D9173 最少出现二次控不到,串口接收不到
+
+## 禁止ZC变通道等能数,获取nwk key
+https://developers.telink-semi.cn/topic/1335
+可以配置以下宏定义
+#define BDBC_TL_SECONDARY_CHANNEL_SET
+#define BDBC_TL_PRIMARY_CHANNEL_SET
+#define DEFAULT_PANID
+
+读取该变量SS_IB().nwkSecurMaterialSet[1].key获取nwk key
+
+OTA可以使用BDT或者Tools目录下的ZGC_NEW工具将OTA文件写入到协调器的flash，之后使用OTA 页面的notify告知待升级设备。
 
 
 ### 链接:

@@ -1,5 +1,5 @@
 # zdo命令
-1. 创建网络: plugin network-creator form 1 0x1234 8 15
+1. 创建网络: plugin network-creator form 1 0x1234 8 24
    1.  0x1234:pid,8是发射功率，15是信道（11~~26）
 2. 切换信道:network change-channel X         
 3. 开放网络: plugin network-creator-security open-network
@@ -117,6 +117,9 @@ zcl global write 0x0007 0x0010 0x30 {01}
 0x01:Off, When Arriving At State 2 From State 1 / On, When Arriving At State 1 From State 2
 0x00:On, When Arriving At State 2 From State 1 / Off, When Arriving At State 1 From State 2
 
+
+# 泰灵微
+    zclProcessIncomingMsg 处理ep0数据
 # 未整理
 广播使用的nodeID:
 0xFFFF广播给所有的在网设备
