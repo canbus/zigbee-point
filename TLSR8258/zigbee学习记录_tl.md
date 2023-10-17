@@ -101,8 +101,19 @@ bls_ota_set_fwSize_and_fwBootAddr(200, 0x40000);//200k, 4byte对齐
     2. 配置:drv_adc_mode_pin_set(drv_adc_mode_t mode,GPIO_PinTypeDef pin) 
     3. 获取采样值 drv_get_adc_data(void)
   * PWM
-    * drv_pwm_init()
-    * drv_pwm_cfg()
+    gpio_set_func(GPIO_PC1, AS_PWM1_N); 	
+    drv_pwm_n_invert(1); 
+    pwm_set_clk(CLOCK_SYS_CLOCK_HZ, 8000000);
+    pwm_set_cycle_and_duty(1, 8000, 0);
+    drv_pwm_start(1);
+
+    gpio_set_func(GPIO_PC0, 30); //AS_PWM4 	
+    drv_pwm_n_invert(4); 	
+    pwm_set_clk(CLOCK_SYS_CLOCK_HZ, 8000000);
+    pwm_set_cycle_and_duty(4, 8000, 4000);
+    drv_pwm_start(4);
+    pwmSetDuty(4, 10); 
+
   * TIMER
     * drv_hwTmr_init()
     * drv_hwTmr_set()
