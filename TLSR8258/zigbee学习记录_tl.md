@@ -35,7 +35,9 @@ bls_ota_set_fwSize_and_fwBootAddr(200, 0x40000);//200k, 4byte对齐
   * 制造商代码  #define MANUFACTURER_CODE_TELINK    0x1141 //(Telink)
   * 固件类型    #define IMAGE_TYPE   ((CHIP_TYPE << 8) |MAGE_TYPE_SWITCH)  
   * 文件版本    #define FILE_VERSION    ((APP_RELEASE << 24) | (APP_BUILD << 16) | (STACK_RELEASE << 8) | STACK_BUILD)
-  
+
+## 库文件
+ 8系列可以在POST步奏的tl_check_fw.sh文件的最后使用tc32-elf-ar.exe -r app.a app.o 来命令封装对应的库  
 
 
 ## API
@@ -356,6 +358,7 @@ bls_ota_set_fwSize_and_fwBootAddr(200, 0x40000);//200k, 4byte对齐
             .startUpCurrentLevel 	= ZCL_START_UP_CURRENT_LEVEL_TO_PREVIOUS,//上电LED灯状态灭掉
         };
       2. 启动时初始化函数zcl_level_startUpCurrentLevel(u8 endpoint);
+
 
 
 
