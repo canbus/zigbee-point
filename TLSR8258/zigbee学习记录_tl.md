@@ -37,8 +37,12 @@ bls_ota_set_fwSize_and_fwBootAddr(200, 0x40000);//200k, 4byte对齐
   * 文件版本    #define FILE_VERSION    ((APP_RELEASE << 24) | (APP_BUILD << 16) | (STACK_RELEASE << 8) | STACK_BUILD)
 
 ## 库文件
- 8系列可以在POST步奏的tl_check_fw.sh文件的最后使用tc32-elf-ar.exe -r app.a app.o 来命令封装对应的库  
+8系列可以在POST步奏的tl_check_fw.sh文件的最后使用tc32-elf-ar.exe -r app.a app.o 来命令封装对应的库
 
+tc32-elf-ar.exe -r E:/telink_zigbee_ble_concurrent_sdk/platform/lib/app_ble.a E:/telink_zigbee_ble_concurrent_sdk/build/tlsr_tc32/concurrent_sampleLight_8258/apps/sampleLight/app_ble.o
+以上命令添加到E:\telink_zigbee_ble_concurrent_sdk\tools\tl_check_fw.sh
+
+lib存放:E:\telink_zigbee_ble_concurrent_sdk\platform\lib
 
 ## API
   * drv_platform_init(void)       初始化,完成芯片/系统clock/gpio/rf/timer等模块的初始化
@@ -259,12 +263,27 @@ bls_ota_set_fwSize_and_fwBootAddr(200, 0x40000);//200k, 4byte对齐
       drv_pwm_init();
       R_LIGHT_PWM_SET();
               do{	\
-										gpio_set_func(GPIO_PD4, AS_PWM2_N); 	\
-										drv_pwm_n_invert(2); 	\
-									}while(0)
+                    gpio_set_func(GPIO_PD4, AS_PWM2_N); 	\
+                    drv_pwm_n_invert(2); 	\
+                }while(0)
       pwmInit(2, 80);
       drv_pwm_start(2);
       drv_pwm_stop(2);
+    
+        //直接操作PC0,PC1
+        gpio_set_func(GPIO_PC0, 30); //AS_PWM4 	
+        drv_pwm_n_invert(4); 	
+        pwm_set_clk(CLOCK_SYS_CLOCK_HZ, 8000000);
+        pwm_set_cycle_and_duty(4, 8000, 4000);
+        drv_pwm_start(4);
+        //pwmSetDuty(4, 10); 
+
+        gpio_set_func(GPIO_PC1, AS_PWM1_N); 	
+        drv_pwm_n_invert(1); 	
+        pwm_set_clk(CLOCK_SYS_CLOCK_HZ, 8000000);
+        pwm_set_cycle_and_duty(1, 8000, 4000);
+        drv_pwm_start(1);
+
   11. 软件定时器
       s32 light_blink_TimerEvtCb(void *arg)
       {// @return  0: timer continue on; -1: timer will be canceled
