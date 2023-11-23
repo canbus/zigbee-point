@@ -537,3 +537,21 @@ flash: 076000:  89 ea dc 58 81 4d 99 c3
 IEEE Address response: (>)A4C138299952C053
 node:[0xA4C138299952C053]
  076000:  52 99 29 38 c1 a4 53 c0
+
+## E06
+zcl color-control movetocolortemp 168 0x000
+zcl color-control movetocolortemp 168 0x000
+===cur:168,43008,step:0,+:0
+
+zcl level-control o-mv-to-level 247 0
+oriLevel:247,colortemp:168
+
+zcl color-control movetocolortemp 25 0x000
+===cur:167,42752,step:36352,+:0
+
+zcl level-control o-mv-to-level 248 0
+oriLevel:248,colortemp:167
+==================发送以下序列即__tickCount = 1===================
+zcl color-control movetocolortemp 0 0x000
+zcl color-control movetocolortemp 0 0x000
+zcl level-control o-mv-to-level 247 0
