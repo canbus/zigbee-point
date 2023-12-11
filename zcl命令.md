@@ -223,3 +223,6 @@ send 0xXXXX 1 1
 通过增加device table plugin可以使用
 plugin device-table print查看所有入网设置的nodeID和端点信息
 
+979507902@qq.com
+si123012345
+

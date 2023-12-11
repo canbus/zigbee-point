@@ -555,3 +555,28 @@ oriLevel:248,colortemp:167
 zcl color-control movetocolortemp 0 0x000
 zcl color-control movetocolortemp 0 0x000
 zcl level-control o-mv-to-level 247 0
+
+
+=======================================
+#define MSG(format,...) \
+    do{\
+        char __buf[200];\
+        mysprintf(__buf,format,##__VA_ARGS__);\
+		drv_uart_tx_start((u8 *)__buf,strlen((const char *)__buf));	\
+    }while(0)
+
+MSG("%s\n",__FUNCTION__);
+
+static void sampleLight_moveToLevelProcess(u8 cmdId, moveToLvl_t *cmd)
+{
+	zcl_levelAttr_t *pLevel = zcl_levelAttrGet();
+    cmd->transitionTime = cmd->transitionTime * 10;
+
+
+场景:sampleLight_moveToColorTemperatureProcess
+
+开关
+light_applyUpdate
+light_fresh
+  sampleLight_updateColor
+    hwLight_colorUpdate_colortemperature
